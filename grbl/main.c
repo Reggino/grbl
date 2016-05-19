@@ -25,6 +25,13 @@
 // Declare system global variable structure
 system_t sys; 
 
+// Draadbuig pin initialization routine.
+void draadbuig_init()
+{
+  DRAADBUIG_DDR &= ~(DRAADBUIG_MASK); // Configure as input pins
+  DRAADBUIG_PORT |= DRAADBUIG_MASK;    // Enable internal pull-up resistors. Normal high operation.
+}
+
 
 int main(void)
 {
@@ -68,6 +75,8 @@ int main(void)
     coolant_init();
     limits_init(); 
     probe_init();
+    draadbuig_init();
+    
     plan_reset(); // Clear block buffer and planner variables
     st_reset(); // Clear stepper subsystem variables.
 

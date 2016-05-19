@@ -126,6 +126,13 @@
 #define PROBE_BIT       5  // Uno Analog Pin 5
 #define PROBE_MASK      (1<<PROBE_BIT)
 
+// Define probe switch input pin.
+#define DRAADBUIG_DDR       DDRC
+#define DRAADBUIG_PIN       PINC
+#define DRAADBUIG_PORT      PORTC
+#define DRAADBUIG_BIT       4  // Uno Analog Pin 4
+#define DRAADBUIG_MASK      (1<<DRAADBUIG_BIT)
+
 // Start of PWM & Stepper Enabled Spindle
 #ifdef VARIABLE_SPINDLE
   // Advanced Configuration Below You should not need to touch these variables

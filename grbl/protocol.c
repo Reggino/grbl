@@ -20,6 +20,7 @@
 */
 
 #include "grbl.h"
+#include "print.h"
 
 // Define different comment types for pre-parsing.
 #define COMMENT_NONE 0
@@ -94,6 +95,8 @@ void protocol_main_loop()
   uint8_t comment = COMMENT_NONE;
   uint8_t char_counter = 0;
   uint8_t c;
+  boolean wasHigh = false;
+  boolean isHigh = false;
   for (;;) {
 
     // Process one line of incoming serial data, as the data becomes available. Performs an
@@ -162,7 +165,17 @@ void protocol_main_loop()
     // completed. In either case, auto-cycle start, if enabled, any queued moves.
     protocol_auto_cycle_start();
 
+    //sensor op poort 4
+    isHigh = (DRAADBUIG_PIN & DRAADBUIG_MASK);
+    if (isHigh != wasHigh) {
+      if (!isHigh) {
+        printPgmString(PSTR("4\r\n"));
+      }
+      wasHigh = isHigh;
+    }
+
     protocol_execute_realtime();  // Runtime command check point.
+
     if (sys.abort) { return; } // Bail to main() program loop to reset system.
               
   }
