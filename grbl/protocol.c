@@ -95,8 +95,6 @@ void protocol_main_loop()
   uint8_t comment = COMMENT_NONE;
   uint8_t char_counter = 0;
   uint8_t c;
-  boolean wasHigh = false;
-  boolean isHigh = false;
   for (;;) {
 
     // Process one line of incoming serial data, as the data becomes available. Performs an
@@ -165,15 +163,6 @@ void protocol_main_loop()
     // completed. In either case, auto-cycle start, if enabled, any queued moves.
     protocol_auto_cycle_start();
 
-    //sensor op poort 4
-    isHigh = (DRAADBUIG_PIN & DRAADBUIG_MASK);
-    if (isHigh != wasHigh) {
-      if (!isHigh) {
-        printPgmString(PSTR("4\r\n"));
-      }
-      wasHigh = isHigh;
-    }
-
     protocol_execute_realtime();  // Runtime command check point.
 
     if (sys.abort) { return; } // Bail to main() program loop to reset system.
@@ -183,6 +172,8 @@ void protocol_main_loop()
   return; /* Never reached */
 }
 
+bool wasHigh = false;
+bool isHigh = false;
 
 // Executes run-time commands, when required. This is called from various check points in the main
 // program, primarily where there may be a while loop waiting for a buffer to clear space or any
@@ -382,8 +373,26 @@ void protocol_execute_realtime()
   }
 
   } while(sys.suspend); // Check for system suspend state before exiting.
-  
-}  
+
+	//sensor op poort 4
+	isHigh = (DRAADBUIG_PIN & DRAADBUIG_MASK);
+	if (isHigh != wasHigh) {
+	  if (!isHigh) {
+      //report position
+      int32_t current_position[N_AXIS]; // Copy current state of the system position variable
+      memcpy(current_position,sys.position,sizeof(sys.position));
+      float print_position[N_AXIS];
+      system_convert_array_steps_to_mpos(print_position,current_position);
+      printPgmString(PSTR("HIT"));
+      printFloat_CoordValue(print_position[2]);
+      printPgmString(PSTR("\r\n"));
+      //reset
+      sys.state = STATE_IDLE;
+		  st_go_idle();
+	  }
+	  wasHigh = isHigh;
+	}
+}
 
 
 // Block until all buffered steps are executed or in a cycle state. Works with feed hold

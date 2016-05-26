@@ -28,9 +28,9 @@
 #define defaults_h
 
   // Grbl generic default settings. Should work across different machines.
-  #define DEFAULT_X_STEPS_PER_MM 250.0
-  #define DEFAULT_Y_STEPS_PER_MM 250.0
-  #define DEFAULT_Z_STEPS_PER_MM 250.0
+  #define DEFAULT_X_STEPS_PER_MM 224.0
+  #define DEFAULT_Y_STEPS_PER_MM 128.0
+  #define DEFAULT_Z_STEPS_PER_MM 534.0
   #define DEFAULT_X_MAX_RATE 500.0 // mm/min
   #define DEFAULT_Y_MAX_RATE 500.0 // mm/min
   #define DEFAULT_Z_MAX_RATE 500.0 // mm/min
@@ -40,8 +40,8 @@
   #define DEFAULT_X_MAX_TRAVEL 200.0 // mm
   #define DEFAULT_Y_MAX_TRAVEL 200.0 // mm
   #define DEFAULT_Z_MAX_TRAVEL 200.0 // mm
-  #define DEFAULT_STEP_PULSE_MICROSECONDS 10
-  #define DEFAULT_STEPPING_INVERT_MASK 0
+  #define DEFAULT_STEP_PULSE_MICROSECONDS 200
+  #define DEFAULT_STEPPING_INVERT_MASK 192
   #define DEFAULT_DIRECTION_INVERT_MASK 0
   #define DEFAULT_STEPPER_IDLE_LOCK_TIME 25 // msec (0-254, 255 keeps steppers enabled)
   #define DEFAULT_STATUS_REPORT_MASK ((BITFLAG_RT_STATUS_MACHINE_POSITION)|(BITFLAG_RT_STATUS_WORK_POSITION))
